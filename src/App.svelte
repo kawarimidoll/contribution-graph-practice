@@ -1,7 +1,7 @@
 <script>
   import Svg from "./Svg.svelte";
   const name = "svelte";
-  const message = "ABC XYZ あいう";
+  const message = "Hello world";
 </script>
 
 <main>

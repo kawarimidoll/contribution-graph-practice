@@ -39,14 +39,16 @@
     speed * steps
   }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
 
+  const offset = needScroll ? 1 : Math.ceil((weeks.length - steps) / 2);
+
   const rects = [];
   pixelPositons.forEach((line, x) => {
     days.forEach((day) => {
       if (line.includes(day)) {
         const color = getRandomColor();
-        rects.push(getRectAttrs(x + 1, day, color));
+        rects.push(getRectAttrs(x + offset, day, color));
         if (needScroll && x < weeks.length - 1) {
-          rects.push(getRectAttrs(x + 1 + steps, day, color));
+          rects.push(getRectAttrs(x + offset + steps, day, color));
         }
       }
     });
