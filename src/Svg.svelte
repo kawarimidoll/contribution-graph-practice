@@ -32,14 +32,27 @@
 
   import getPixels from "./get-pixels.js";
   const pixels = getPixels(message);
-  /* console.log(pixels); */
 
   const steps = pixels.length;
+  const needScroll = steps > weeks.length;
   const translateX = steps * rectStep;
   const speed = 200;
   const style = `--speed:${
     speed * steps
   }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
+
+  const rects = [];
+  pixels.forEach((line, x) => {
+    days.forEach((day) => {
+      if (line.includes(day)) {
+        const color = getRandomColor();
+        rects.push(getRectAttrs(x + 1, day, color));
+        if (needScroll && x < weeks.length - 1) {
+          rects.push(getRectAttrs(x + 1 + steps, day, color));
+        }
+      }
+    });
+  });
 </script>
 
 <svg {width} {height}>
@@ -53,7 +66,7 @@
       {/each}
     </g>
     <svg width={width - rectStep * 2} height={height - rectStep * 2} {style}>
-      {#if steps > weeks.length}
+      {#if needScroll}
         <style>
           rect {
             animation: step var(--speed) steps(var(--steps)) infinite;
@@ -65,15 +78,8 @@
           }
         </style>
       {/if}
-      {#each pixels as line, x}
-        {#each days as day}
-          {#if line.includes(day)}
-            <rect {...getRectAttrs(x + 1, day, getRandomColor())} />
-            {#if steps > weeks.length && x < weeks.length - 1}
-              <rect {...getRectAttrs(x + 1 + steps, day, getRandomColor())} />
-            {/if}
-          {/if}
-        {/each}
+      {#each rects as rect}
+        <rect {...rect} />
       {/each}
     </svg>
   </g>
