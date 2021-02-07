@@ -30,10 +30,10 @@
   const width = rectStep * (weeks.length + 2) - rectSpan;
   const height = rectStep * (days.length + 2) - rectSpan + fontSize;
 
-  import getPixels from "./get-pixels.js";
-  const pixels = getPixels(message);
+  import getPixelPositons from "./get-pixel-positions.js";
+  const pixelPositons = getPixelPositons(message);
 
-  const steps = pixels.length;
+  const steps = pixelPositons.length;
   const needScroll = steps > weeks.length;
   const translateX = steps * rectStep;
   const speed = 200;
@@ -42,7 +42,7 @@
   }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
 
   const rects = [];
-  pixels.forEach((line, x) => {
+  pixelPositons.forEach((line, x) => {
     days.forEach((day) => {
       if (line.includes(day)) {
         const color = getRandomColor();
