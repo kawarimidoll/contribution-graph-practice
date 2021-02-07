@@ -33,6 +33,13 @@
   import getPixels from "./get-pixels.js";
   const pixels = getPixels(message);
   /* console.log(pixels); */
+
+  const steps = pixels.length;
+  const translateX = steps * rectStep;
+  const speed = 200;
+  const style = `--speed:${
+    speed * steps
+  }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
 </script>
 
 <svg {width} {height}>
@@ -45,11 +52,26 @@
         {/each}
       {/each}
     </g>
-    <svg width={width - rectStep * 2} height={height - rectStep * 2}>
+    <svg width={width - rectStep * 2} height={height - rectStep * 2} {style}>
+      {#if steps > weeks.length}
+        <style>
+          rect {
+            animation: step var(--speed) steps(var(--steps)) infinite;
+          }
+          @keyframes step {
+            to {
+              transform: var(--translate-x);
+            }
+          }
+        </style>
+      {/if}
       {#each pixels as line, x}
         {#each days as day}
           {#if line.includes(day)}
             <rect {...getRectAttrs(x + 1, day, getRandomColor())} />
+            {#if steps > weeks.length && x < weeks.length - 1}
+              <rect {...getRectAttrs(x + 1 + steps, day, getRandomColor())} />
+            {/if}
           {/if}
         {/each}
       {/each}
