@@ -30,51 +30,8 @@
   const width = rectStep * (weeks.length + 2) - rectSpan;
   const height = rectStep * (days.length + 2) - rectSpan + fontSize;
 
-  const characters = {
-    " ": "//",
-    A: "123456/04/123456",
-    B: "0123456/036/1245",
-    C: "12345/06/15",
-    D: "0123456/06/12345",
-    E: "0123456/036/06",
-    F: "0123456/03/0",
-    G: "12345/06/13456",
-    H: "0123456/3/0123456",
-    I: "06/0123456/06",
-    J: "5/6/012345",
-    K: "0123456/23/01456",
-    L: "0123456/6/6",
-    M: "0123456/123/0123456",
-    N: "0123456/0/123456",
-    O: "12345/06/12345",
-    P: "0123456/03/12",
-    Q: "12345/046/123456",
-    R: "0123456/03/12456",
-    S: "125/036/145",
-    T: "0/0123456/0",
-    U: "0123456/6/0123456",
-    V: "01234/56/01234",
-    W: "0123456/345/0123456",
-    X: "0156/234/0156",
-    Y: "012/3456/012",
-    Z: "056/02346/016",
-  };
-
-  const getCharacterArray = (char) => {
-    const points = characters[char];
-    if (!points) {
-      throw new Error(`Invalid character '${char}' is detected!`);
-    }
-    return points
-      .split("/")
-      .map((p) => p.split("").map((n) => Number(n)))
-      .concat([[]]);
-    // add a blank line to separate each character
-  };
-  const pixels = message
-    .split("")
-    .reduce((acc, crnt) => acc.concat(getCharacterArray(crnt)), []);
-
+  import getPixels from "./get-pixels.js";
+  const pixels = getPixels(message);
   /* console.log(pixels); */
 </script>
 
@@ -88,13 +45,15 @@
         {/each}
       {/each}
     </g>
-    {#each pixels as line, x}
-      {#each days as day}
-        {#if line.includes(day)}
-          <rect {...getRectAttrs(x + 1, day, getRandomColor())} />
-        {/if}
+    <svg width={width - rectStep * 2} height={height - rectStep * 2}>
+      {#each pixels as line, x}
+        {#each days as day}
+          {#if line.includes(day)}
+            <rect {...getRectAttrs(x + 1, day, getRandomColor())} />
+          {/if}
+        {/each}
       {/each}
-    {/each}
+    </svg>
   </g>
 
   <g transform="translate({rectStep}, {height - rectSize})">
