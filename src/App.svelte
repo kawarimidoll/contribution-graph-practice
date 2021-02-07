@@ -1,6 +1,7 @@
 <script>
   import Svg from "./Svg.svelte";
-  let name = "svelte";
+  const name = "svelte";
+  const message = "ABC XYZ";
 </script>
 
 <main>
@@ -10,7 +11,7 @@
     how to build Svelte apps.
   </p>
   <div>
-    <Svg />
+    <Svg {message} />
   </div>
 </main>
 
