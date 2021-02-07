@@ -25,10 +25,8 @@
     "stroke-width": rectStrokeWidth,
   });
 
-  const fontSize = rectSize + rectSpan;
-
   const width = rectStep * (weeks.length + 2) - rectSpan;
-  const height = rectStep * (days.length + 2) - rectSpan + fontSize;
+  const height = rectStep * (days.length + 3) - rectSpan;
 
   import getPixelPositons from "./get-pixel-positions.js";
   const pixelPositons = getPixelPositons(message);
@@ -85,7 +83,7 @@
   </g>
 
   <g transform="translate({rectStep}, {height - rectSize})">
-    <text font-size={fontSize}>
+    <text font-size={rectStep}>
       <a href="https://github.com/kawarimidoll">@kawarimidoll</a>
     </text>
   </g>
