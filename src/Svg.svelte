@@ -2,6 +2,8 @@
   export let message = "";
 
   const colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
+  const getRandomColor = () =>
+    colors[Math.floor(Math.random() * (colors.length - 1)) + 1];
   const weeks = new Array(53).fill(0).map((_, i) => i);
   const days = new Array(7).fill(0).map((_, i) => i);
 
@@ -73,7 +75,7 @@
     .split("")
     .reduce((acc, crnt) => acc.concat(getCharacterArray(crnt)), []);
 
-  console.log(pixels);
+  /* console.log(pixels); */
 </script>
 
 <svg {width} {height}>
@@ -89,7 +91,7 @@
     {#each pixels as line, x}
       {#each days as day}
         {#if line.includes(day)}
-          <rect {...getRectAttrs(x + 1, day, colors[2])} />
+          <rect {...getRectAttrs(x + 1, day, getRandomColor())} />
         {/if}
       {/each}
     {/each}
