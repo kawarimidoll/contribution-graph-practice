@@ -1,9 +1,6 @@
 <script>
-  export let message = "";
+  import getPixelPositons from "./get-pixel-positions.js";
 
-  const colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
-  const getRandomColor = () =>
-    colors[Math.floor(Math.random() * (colors.length - 1)) + 1];
   const weeks = new Array(53).fill(0).map((_, i) => i);
   const days = new Array(7).fill(0).map((_, i) => i);
 
@@ -28,31 +25,47 @@
   const width = rectStep * (weeks.length + 2) - rectSpan;
   const height = rectStep * (days.length + 3) - rectSpan;
 
-  import getPixelPositons from "./get-pixel-positions.js";
-  const pixelPositons = getPixelPositons(message);
+  export let message = "";
+  export let colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
+  export let speed = 200;
 
-  const steps = pixelPositons.length;
-  const needScroll = steps > weeks.length;
-  const translateX = steps * rectStep;
-  const speed = 200;
-  const style = `--speed:${
+  let pixelPositons = getPixelPositons(message);
+  let steps = pixelPositons.length;
+  let needScroll = steps > weeks.length;
+  let translateX = steps * rectStep;
+  let style = `--speed:${
     speed * steps
   }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
+  let rects = [];
 
-  const offset = needScroll ? 1 : Math.ceil((weeks.length - steps) / 2);
+  $: {
+    pixelPositons = getPixelPositons(message);
+    steps = pixelPositons.length;
+    needScroll = steps > weeks.length;
+    translateX = steps * rectStep;
+    speed = 200;
+    style = `--speed:${
+      speed * steps
+    }ms;--steps:${steps};--translate-x: translateX(-${translateX}px)`;
 
-  const rects = [];
-  pixelPositons.forEach((line, x) => {
-    days.forEach((day) => {
-      if (line.includes(day)) {
-        const color = getRandomColor();
-        rects.push(getRectAttrs(x + offset, day, color));
-        if (needScroll && x < weeks.length - 1) {
-          rects.push(getRectAttrs(x + offset + steps, day, color));
+    const offset = needScroll ? 1 : Math.ceil((weeks.length - steps) / 2);
+
+    const getRandomColor = () =>
+      colors[Math.floor(Math.random() * (colors.length - 1)) + 1];
+    const newRects = [];
+    pixelPositons.forEach((line, x) => {
+      days.forEach((day) => {
+        if (line.includes(day)) {
+          const color = getRandomColor();
+          newRects.push(getRectAttrs(x + offset, day, color));
+          if (needScroll && x < weeks.length - 1) {
+            newRects.push(getRectAttrs(x + offset + steps, day, color));
+          }
         }
-      }
+      });
     });
-  });
+    rects = newRects;
+  }
 </script>
 
 <svg {width} {height}>

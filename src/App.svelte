@@ -1,7 +1,8 @@
 <script>
   import Svg from "./Svg.svelte";
   const name = "svelte";
-  const message = "ハロー★";
+  let message = "Hello world!";
+  let colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
 </script>
 
 <main>
@@ -11,7 +12,17 @@
     how to build Svelte apps.
   </p>
   <div>
-    <Svg {message} />
+    <Svg bind:message={message} bind:colors={colors} />
+  </div>
+  <div>
+    <div>
+      <input bind:value={message} />
+    </div>
+    {#each colors as color}
+      <div>
+        <input bind:value={color} />
+      </div>
+    {/each}
   </div>
 </main>
 
