@@ -27,6 +27,8 @@
 
   export let message = "";
   export let colors = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
+  export let bg = "#ffffff";
+  export let frame = "#000000";
   export let speed = 200;
 
   let pixelPositons = getPixelPositons(message);
@@ -69,7 +71,7 @@
 </script>
 
 <svg {width} {height}>
-  <rect {width} {height} stroke="#000" fill="none" />
+  <rect {width} {height} stroke={frame} fill={bg} />
   <g transform="translate({rectStep}, {rectStep})">
     <g>
       {#each weeks as week}
