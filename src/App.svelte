@@ -1,12 +1,11 @@
 <script>
   import Svg from "./Svg.svelte";
-  const name = "svelte";
   let message = "Hello world!";
-  let colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
+  let colors = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
 </script>
 
 <main>
-  <h1>Hello {name}!</h1>
+  <h1>Typograssy GUI</h1>
   <p>
     Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
     how to build Svelte apps.
@@ -20,7 +19,7 @@
     </div>
     {#each colors as color}
       <div>
-        <input bind:value={color} />
+        <input type="color" bind:value={color} />
       </div>
     {/each}
   </div>

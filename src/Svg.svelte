@@ -13,7 +13,7 @@
   const getRectAttrs = (x, y, fill) => ({
     x: x * rectStep,
     y: y * rectStep,
-    fill: `#${fill}`,
+    fill,
     width: rectSize,
     height: rectSize,
     rx: rectRadius,
@@ -26,7 +26,7 @@
   const height = rectStep * (days.length + 3) - rectSpan;
 
   export let message = "";
-  export let colors = ["ebedf0", "9be9a8", "40c463", "30a14e", "216e39"];
+  export let colors = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
   export let speed = 200;
 
   let pixelPositons = getPixelPositons(message);
